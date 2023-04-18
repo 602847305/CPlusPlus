@@ -39,13 +39,20 @@ public:
 	UPROPERTY(EditAnywhere)
 	float MaxSpeed;
 
-#if 1
+
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* SphereComp;
 
 	UPROPERTY(VisibleAnywhere)
-	class USprintArmCompnent* SprintArmComp;
-#endif
+	class USpringArmComponent* SprintArmComp;
+
+	UPROPERTY(VisibleAnywhere)
+	class UMyPawnMovementComponent* MovementComp;
+
+	
+	virtual UPawnMovementComponent* GetMovementComponent() const override;
+
+
 
 
 
