@@ -48,31 +48,33 @@ ACreature::ACreature()
 #endif
 
 #if 1
-		SprintArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SprintArmComp"));
-		SprintArmComp->SetupAttachment(RootComponent); //绑定到组件
-		SprintArmComp->TargetArmLength = 400; //弹簧臂长度
-		SprintArmComp->SetRelativeRotation(FRotator(-45.f, 0, 0));//设置相对位置
-		SprintArmComp->bEnableCameraLag = true;//弹性观感打开
-		SprintArmComp->CameraLagSpeed = 3; 
+		SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SprintArmComp"));
+		SpringArmComp->SetupAttachment(RootComponent); //绑定到组件
+		SpringArmComp->TargetArmLength = 400; //弹簧臂长度
+		SpringArmComp->SetRelativeRotation(FRotator(-45.f, 0, 0));//设置相对位置
+		SpringArmComp->bEnableCameraLag = true;//弹性观感打开
+		SpringArmComp->CameraLagSpeed = 3;
 #endif
 
 		Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 #if 1
-		Camera->SetupAttachment(SprintArmComp,USpringArmComponent::SocketName);//摄像机绑定到弹簧臂上，参数->指定绑定位置"SocketName插槽"
+		Camera->SetupAttachment(SpringArmComp,USpringArmComponent::SocketName);//摄像机绑定到弹簧臂上，参数->指定绑定位置"SocketName插槽"
 #else
 	Camera->SetupAttachment(GetRootComponent());
 	Camera->SetRelativeLocation(FVector(-300.f,0,300));
 	Camera->SetRelativeRotation(FRotator(-45.f, 0, 0));
 #endif
-	CurrentVelocity = FVector(0.f);
-	MaxSpeed = 100.f;
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
-#if 1
+
 	MovementComp = CreateDefaultSubobject<UMyPawnMovementComponent>(TEXT("MoveComponent"));
 	MovementComp->UpdatedComponent = RootComponent;
-#endif
+
+	//视角变化量，初始化为0向量
+	CameraInput = FVector2D(0.f, 0);
+
+
 }
 
 // Called when the game starts or when spawned
@@ -91,7 +93,8 @@ void ACreature::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAxis("MoveForward",this,&ACreature::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACreature::MoveRight);
-
+	PlayerInputComponent->BindAxis("CameraPitch", this, &ACreature::CameraPitch);
+	PlayerInputComponent->BindAxis("CameraYaw", this, &ACreature::CameraYaw);
 
 }
 
@@ -117,17 +120,39 @@ void ACreature::MoveRight(float Value)
 
 }
 
+//记录鼠标运动Y
+void ACreature::CameraPitch(float Value)
+{
+	CameraInput.Y = Value;
+}
+
+//记录鼠标运动X
+void ACreature::CameraYaw(float Value)
+{
+	CameraInput.X = Value;
+}
+
 // Called every frame
 void ACreature::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FVector NewLocation = GetActorLocation() + CurrentVelocity * DeltaTime;
-	SetActorLocation(NewLocation);
+	//旋转 ： 新的旋转方向
+	FRotator NewRotation = GetActorRotation(); 
+	NewRotation.Yaw += CameraInput.X; 
+	SetActorRotation(NewRotation);
 
+	//向上向下看使用弹簧臂控制，首先拿到原始角度
+	FRotator NewSpringArmRotation = SpringArmComp->GetComponentRotation(); 
+	NewSpringArmRotation.Pitch += CameraInput.Y;
+	//加上角度约束
+	NewSpringArmRotation.Pitch = FMath::Clamp(NewSpringArmRotation.Pitch, -80.f, -15.f);
+	//设置弹簧臂的角度
+	SpringArmComp->SetWorldRotation(NewSpringArmRotation);
 
 }
 
 UPawnMovementComponent* ACreature::GetMovementComponent()const {
 	return MovementComp;
 }
+

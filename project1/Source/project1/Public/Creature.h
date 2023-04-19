@@ -33,18 +33,13 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* Camera;
 
-	UPROPERTY(EditAnywhere)
-	FVector CurrentVelocity;
-
-	UPROPERTY(EditAnywhere)
-	float MaxSpeed;
 
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* SphereComp;
 
 	UPROPERTY(VisibleAnywhere)
-	class USpringArmComponent* SprintArmComp;
+	class USpringArmComponent* SpringArmComp;
 
 	UPROPERTY(VisibleAnywhere)
 	class UMyPawnMovementComponent* MovementComp;
@@ -64,6 +59,9 @@ private:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
+	void CameraPitch(float Value);
+	void CameraYaw(float Value);
 
+	FVector2D CameraInput;
 
 };
