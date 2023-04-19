@@ -15,6 +15,20 @@ public:
 	// Sets default values for this character's properties
 	AMan();
 
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = Camera)
+	class USpringArmComponent* SpringArmComp;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = Camera)
+	class UCameraComponent *Camera;
+
+
+	float BaseTurnRate;
+	float BaseLookupRate;
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void TurnAtRate(float Value);
+	void TurnLookupRate(float Value);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -23,7 +37,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+
+	// Called to bind functionality to input 输入组件设置
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
