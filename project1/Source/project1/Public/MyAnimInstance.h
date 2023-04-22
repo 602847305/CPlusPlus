@@ -29,4 +29,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = AnimationProperty)
 	void UpdateAnimationProperties();// 更新动画的属性
 
+	
+
 };
