@@ -22,7 +22,21 @@ AFloorAuto::AFloorAuto()
 	TriggerBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);//所有碰撞设置为->忽略
 	TriggerBox->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
 
-	TriggerBox->SetBoxExtent(FVector(64, 64, 32));
+	StoreSwitch = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StoreSwitch"));
+	StoreSwitch->SetupAttachment(RootComponent);
+
+	Store1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Store1"));
+	StoreSwitch->SetupAttachment(RootComponent);
+
+	Store2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Store2"));
+	StoreSwitch->SetupAttachment(RootComponent);
+
+	Store3 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Store3"));
+	StoreSwitch->SetupAttachment(RootComponent);
+
+	Effigy = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Effigy"));
+	StoreSwitch->SetupAttachment(RootComponent);
+
 
 
 }
@@ -46,9 +60,11 @@ void AFloorAuto::Tick(float DeltaTime)
 
 void AFloorAuto::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* actor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFormSweep, const FHitResult& SweepResult)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Overlap Begin"));
 }
 
 void   AFloorAuto::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* actor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Overlap end"));
 }
 

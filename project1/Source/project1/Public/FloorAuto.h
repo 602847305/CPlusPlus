@@ -19,13 +19,27 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UBoxComponent* TriggerBox;
 
-	//地板开关
+	//开关
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UStaticMeshComponent* FloorSwitch;
+		class UStaticMeshComponent* StoreSwitch;
+	 
+	//石头
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* Store1;
 
-	//门
+	//石头
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UStaticMeshComponent* Door;
+		class UStaticMeshComponent* Store2;
+
+	//石头
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* Store3;
+
+	//雕像
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* Effigy;
+
+
 
 protected:
 	// Called when the game starts or when spawned
