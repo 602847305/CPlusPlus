@@ -21,25 +21,18 @@ public:
 
 	//开关
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UStaticMeshComponent* StoreSwitch;
+		class UStaticMeshComponent* StoneSwitch;
 	 
-	//石头
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UStaticMeshComponent* Store1;
-
-	//石头
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UStaticMeshComponent* Store2;
-
-	//石头
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UStaticMeshComponent* Store3;
 
 	//雕像
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		class UStaticMeshComponent* Effigy;
 
+	UPROPERTY(BlueprintReadWrite)
+	FVector InitialStoneSwitchLocation;
 
+	UPROPERTY(BlueprintReadWrite)
+	FVector InitialEffigyLocation;
 
 protected:
 	// Called when the game starts or when spawned
@@ -57,5 +50,23 @@ public:
 	UFUNCTION()
 		void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* actor,
 			UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void EffigyUp();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void EffigyLower();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void StoneSwitchUp();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StoneSwitchLower();
+
+	UFUNCTION(BlueprintCallable)
+	void  updateSwitchLocation(float z);
+
+	UFUNCTION(BlueprintCallable)
+	void updateEffigyLocation(float z);
 
 };
