@@ -10,6 +10,7 @@
 // Sets default values
 AFloorAuto::AFloorAuto()
 {
+	UE_LOG(LogTemp, Warning,TEXT("AFloorAuto"));
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -25,7 +26,6 @@ AFloorAuto::AFloorAuto()
 	StoneSwitch = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StoneSwitch"));
 	StoneSwitch->SetupAttachment(RootComponent);
 
-
 	Effigy = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Effigy"));
 	StoneSwitch->SetupAttachment(RootComponent);
 
@@ -37,6 +37,8 @@ AFloorAuto::AFloorAuto()
 void AFloorAuto::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("Begin Play"));
+
 	//拿到组件的初始位置
 	InitialStoneSwitchLocation = StoneSwitch->GetComponentLocation();
 	InitialEffigyLocation = Effigy->GetComponentLocation();
