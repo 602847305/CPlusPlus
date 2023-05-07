@@ -38,7 +38,7 @@ FVector ASpawnVolume::GetSpawnPointDummy(FVector Value)
 //		UWorld* MyWorld = GetWorld();
 //		if (MyWorld)
 //		{
-//			ACreature* Creature = MyWorld->SpawnActor<ACreature>(PawnClass, Location,FRotator(0.f));
+//			ACreature* Creature = MyWorld->SpawnActor<ACreature>(PawnClass, Location, FRotator(0.f));
 //		}
 //	}
 //}

@@ -16,11 +16,30 @@ AItem::AItem()
 	PrimaryActorTick.bCanEverTick = true;
 	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	RootComponent = SphereComp;
+
+	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
+	MeshComp->SetupAttachment(RootComponent);
+	ParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComp"));
+	ParticleComp->SetupAttachment(RootComponent);
+
+	Rotate = false;
+	RotationSpeed = 100;
+
 }
 
 void AItem::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__func__));
+
+	if (ParticleOverlap) {
+		//指定位置生成一个粒子系统。它可以用于在游戏中创建特效、爆炸和其他视觉效果。
+		//指定要生成的粒子系统类型、生成位置、旋转角度以及其他可选参数。
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ParticleOverlap, GetActorLocation());
+	}
+	if (SoundOverlap) {
+		UGameplayStatics::PlaySound2D(GetWorld(), SoundOverlap);
+	}
+	Destroy();
 }
 
 void AItem::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -46,6 +65,14 @@ void AItem::BeginPlay()
 void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (Rotate)
+	{
+		FRotator Rotation = MeshComp->GetComponentRotation();
+		Rotation.Yaw += DeltaTime * RotationSpeed;
+		MeshComp->SetWorldRotation(Rotation);
+	}
+
 }
 
 

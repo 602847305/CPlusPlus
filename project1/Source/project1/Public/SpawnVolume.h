@@ -27,7 +27,7 @@ public:
 	FVector GetSpawnPointDummy(FVector Value);
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly)
-	TSubclassOf<class ACreature> PawnToSpawn;
+	TSubclassOf<class AActor> PawnToSpawn;
 
 	//UFUNCTION(BlueprintNativeEvent,BlueprintCallable)
 	//void SpawnMyPawn(UClass*PawnClass,FVector const&Location);

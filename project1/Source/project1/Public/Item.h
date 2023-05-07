@@ -23,6 +23,25 @@ public:
 
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Item|Mesh")
+	UStaticMeshComponent*MeshComp;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Item|Particle")
+	class UParticleSystemComponent*ParticleComp;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Item|Particle")
+	UParticleSystem*ParticleOverlap;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Item|Sound")
+	class USoundCue*SoundOverlap;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Item|Property")
+	bool Rotate;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Item|Property")
+	float RotationSpeed;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
